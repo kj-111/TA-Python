@@ -2,7 +2,14 @@ from __future__ import annotations
 
 from typing import TypeVar
 
-T = TypeVar("T")
+# NOTE: from __future__ import annotatiosn: dit laat de type checkers weten dat types die nog niet bestaan
+# wel later zullen toegevoegd worden...
+#
+# Typevar is een hulpmiddel om generiek types te maken
+# Generiek: code die werkt met meerdere types... (bv een stack kan zowel ints als string als elementen hebben, als eigen
+# gemaakte gegevenstypes...)
+
+T = TypeVar("T")  #
 
 
 class StackOverflowError(BaseException):
