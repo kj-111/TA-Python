@@ -9,10 +9,22 @@ from typing import TypeVar
 # Generiek: code die werkt met meerdere types... (bv een stack kan zowel ints als string als elementen hebben, als eigen
 # gemaakte gegevenstypes...)
 
-T = TypeVar("T")  #
+T = TypeVar("T")  # Hier zeg je van, T kan eender wel type zijn
 
 
 class StackOverflowError(BaseException):
+    """
+    NOTE: maakt een nieuwe exception die erft van BaseException
+    Hij erft dus het gedrag van de parent class, dus er is mogelijkheid om raise en except te gebruiken
+    Waarom dan toch eigen class maken? Wel omdat je de exception dan wel een betekenisvolle naam kan geven...
+    En het maakt ook dat je dus verschillende soort erros kan gebruiken, door te raisen ergens kan die exception
+    dan opgevangen worden in bv een try except block...
+
+    Het gaat er vooral om een type fout te onderscheiden en niet overal gewoon raise Exception te doen...
+
+    Alsook later kan je nog extra info in de class toevoegen...
+    """
+
     pass
 
 
@@ -27,16 +39,21 @@ class Stack[T]:
     of a stack. The order in which elements come off of a stack are
     Last In, First Out (LIFO).
     https://en.wikipedia.org/wiki/Stack_(abstract_data_type)
+
+    NOTE: list kan worden gebruikt voor een effectieve en efficiente manier om een stack te implemeteren
     """
 
     def __init__(self, limit: int = 10):
+        # dit kan dus een list van ints zijn, een list van strings, ...
         self.stack: list[T] = []
         self.limit = limit
 
     def __bool__(self) -> bool:
+        # als list leeg dan False, als niet leeg True
         return bool(self.stack)
 
     def __str__(self) -> str:
+        # je returned de string representation van de list, logisch want list wordt gebruikt als implementatie voor een stack
         return str(self.stack)
 
     def push(self, data: T) -> None:
@@ -46,7 +63,7 @@ class Stack[T]:
         >>> S = Stack(2) # stack size = 2
         >>> S.push(10)
         >>> S.push(20)
-        >>> print(S)
+        >>> print(S) # NOTE: deze gebruikt dus gewoon de stringrepresentatie van een list..
         [10, 20]
 
         >>> S = Stack(1) # stack size = 1
@@ -57,13 +74,16 @@ class Stack[T]:
         data_structures.stacks.stack.StackOverflowError
 
         """
+        # NOTE: je kan telkens maar 1 iets pushen dus kijken of de lengte == limit is voldoende...
         if len(self.stack) >= self.limit:
             raise StackOverflowError
         self.stack.append(data)
+        # we gebruiken dus gewoon append methode van de list class
 
-    def pop(self) -> T:
+    def pop(self) -> T:  # merk op, generic type hier heel handig
         """
         Pop an element off of the top of the stack.
+        NOTE: en return het element
 
         >>> S = Stack()
         >>> S.push(-5)
