@@ -6,6 +6,9 @@ https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
 from typing import Literal
 
+# NOTE: literal staat doe maar een specifiek zelf bepaald aantal toegestane waarde voor een type aan te geven
+# dit wordt niet gecontroleerd at runtime, het dient vooral voor statische typecheckers
+# runtime checks zijn mogelijk via mypy!
 from .balanced_parentheses import balanced_parentheses
 from .stack import Stack
 

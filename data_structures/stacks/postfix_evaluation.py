@@ -117,7 +117,7 @@ def evaluate(post_fix: list[str], verbose: bool = False) -> float:
         print("-" * (30 + len(post_fix)))
     stack = []
     for x in valid_expression:
-        if x not in OPERATORS:
+        if x not in OPERATORS:  # NOTE: dus x is een getal, If x is a number...
             stack.append(x)  # append x to stack
             if verbose:
                 # output in tabular format
@@ -131,6 +131,9 @@ def evaluate(post_fix: list[str], verbose: bool = False) -> float:
         # If x is operator
         # If only 1 value is inside the stack and + or - is encountered
         # then this is unary + or - case
+        # NOTE: dus dit gaat over "-5" bijvoorbeeld, in de parse_token wordt elke char apart gezien
+        # dus wordt het omgezet naar een lijst ["-", "5"]
+
         if x in UNARY_OP_SYMBOLS and len(stack) < 2:
             b = stack.pop()  # pop stack
             if x == "-":
